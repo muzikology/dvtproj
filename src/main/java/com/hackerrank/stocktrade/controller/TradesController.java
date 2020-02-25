@@ -24,7 +24,7 @@ public class TradesController {
     @Autowired
     private TradeService tradeService;
 
-    @GetMapping("/stocks/{stockSymbol}/{tradeType}/{startDate}/{endDate}")
+        @GetMapping("/stocks/{stockSymbol}/{tradeType}/{startDate}/{endDate}")
     public ResponseEntity<List<Trade>> getTradeByStockSymbolAndTradeType(@PathVariable String stockSymbol, @PathVariable String tradeType, @PathVariable Timestamp startDate, @PathVariable Timestamp endDate){
 
 
@@ -44,7 +44,6 @@ public class TradesController {
         return new ResponseEntity<>(tradeService.addTrade(trade), null, HttpStatus.OK);
 
 
-
     }
 
     @DeleteMapping("/{userId}")
@@ -54,8 +53,8 @@ public class TradesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trade> getTradeByUserId(@PathVariable Long id){
-        return new ResponseEntity<>(tradeService.getTrade(id), null, HttpStatus.OK);
+    public ResponseEntity<Trade> getTradeById(@PathVariable Long id){
+        return new ResponseEntity<>(tradeService.getTradeById(id), null, HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}")

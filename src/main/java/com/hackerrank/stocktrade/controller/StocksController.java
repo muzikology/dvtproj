@@ -30,7 +30,7 @@ public class StocksController {
     }
 
 
-    @GetMapping("/{stockSymbol},{price},{startDate},{endDate}")
+    @GetMapping("/{stockSymbol}/{price}/{startDate}/{endDate}")
     public ResponseEntity<List<Trade>> getTradeByStockSymbolAndDateRange(@PathVariable String symbol, @PathVariable Float price, @PathVariable Timestamp startDate, @PathVariable Timestamp endDate){
 
         List<Trade> trades = tradeService.getTradeByStockSymbolAndDateRange(symbol, price, startDate, endDate);

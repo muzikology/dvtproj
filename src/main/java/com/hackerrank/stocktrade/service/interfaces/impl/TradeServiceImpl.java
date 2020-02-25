@@ -40,8 +40,9 @@ public class TradeServiceImpl implements TradeService {
          tradeRepository.deleteAll();
     }
 
-    public Trade getTrade(Long id){
+    public Trade getTradeById(Long id){
 
+        System.out.println(tradeRepository.getOne(id));
         return tradeRepository.getOne(id);
 
     }

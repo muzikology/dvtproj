@@ -10,8 +10,8 @@ public interface TradeService {
     Trade addTrade(Trade trade);
     void deleteTrade(Long id);
     void deleteAllTrades();
-    Trade getTrade(Long id);
     List<Trade> getAllTrades();
+    Trade getTradeById(Long id);
     List<Trade> getAllTradesByUserId(Long id);
     List<Trade> getTradeByStockSymbolAndTradeType(String symbol, String type, Timestamp startDate, Timestamp endDate);
     List<Trade> getTradeByStockSymbolAndDateRange(String symbol, Float price, Timestamp startDate, Timestamp endDate);
