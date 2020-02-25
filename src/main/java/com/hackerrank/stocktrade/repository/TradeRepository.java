@@ -10,7 +10,7 @@ public interface TradeRepository extends JpaRepository<Trade, Long>  {
 
     List<Trade> findAllByUserId(Long id);
 
-    List<Trade> findAllByStockSymbolAndTradeType(String symbol, String type, Timestamp startDate, Timestamp endDate);
+    List<Trade> findAllBySymbolAndType(String symbol, String type);
 
-    List<Trade> findAllByStockSymbolAndDateRange(String symbol, Float price, Timestamp startDate, Timestamp endDate);
+    List<Trade> findAllBySymbolAndPrice(String symbol, Float price);
 }

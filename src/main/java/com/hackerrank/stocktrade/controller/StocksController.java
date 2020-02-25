@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,7 +30,7 @@ public class StocksController {
     }
 
 
-    @GetMapping("/{stockSymbol}, {price}, {startDate}, {endDate}")
+    @GetMapping("/{stockSymbol},{price},{startDate},{endDate}")
     public ResponseEntity<List<Trade>> getTradeByStockSymbolAndDateRange(@PathVariable String symbol, @PathVariable Float price, @PathVariable Timestamp startDate, @PathVariable Timestamp endDate){
 
         List<Trade> trades = tradeService.getTradeByStockSymbolAndDateRange(symbol, price, startDate, endDate);
@@ -34,6 +38,19 @@ public class StocksController {
            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no trades in the given date range");
         }
         return new ResponseEntity<>(trades, null, HttpStatus.OK);
+    }
+
+    public Timestamp convertDateToImeStamp(String strDate){
+        try {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(strDate);
+            Timestamp timeStampDate = new Timestamp(date.getTime());
+
+            return timeStampDate;
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+            return null;
+        }
     }
 
 

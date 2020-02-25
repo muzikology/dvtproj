@@ -1,8 +1,9 @@
 package com.hackerrank.stocktrade.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -10,17 +11,24 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="trade")
 public class Trade implements Serializable {
+
+    @Id
     private Long id;
+
     private String type;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
     private String symbol;
+
     private Integer shares;
+
     private Float price;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp timestamp;
-    
+
     public Trade() {
     }
     
@@ -82,11 +90,11 @@ public class Trade implements Serializable {
         this.price = price;
     }
     
-    public Timestamp getTimestamp() {
+    public Timestamp getTimeStamp() {
         return this.timestamp;
     }
     
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimeStamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 }

@@ -1,7 +1,7 @@
 package com.hackerrank.stocktrade.config;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -12,13 +12,15 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@ComponentScan
+@Configuration
+@EnableAutoConfiguration
 @EnableSwagger2
 public class SwaggerConfig {
 
     @Bean
     public Docket StockTradeApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -27,14 +29,10 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("StockTrade REST API")
-                .description("Abbot API Documentation.").termsOfServiceUrl("")
+                .description("StockTrade API Documentation.").termsOfServiceUrl("")
                 .license("STOCKTRADE")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("0.0.1")
                 .build();
-    }
-
-    private ApiKey apiKey() {
-        return new ApiKey("authkey", "Authorization", "header");
     }
 }

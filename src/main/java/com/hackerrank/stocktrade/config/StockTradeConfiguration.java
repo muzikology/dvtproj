@@ -8,8 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
-import java.util.Properties;
-
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class StockTradeConfiguration {
 
@@ -20,6 +18,7 @@ public class StockTradeConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+
             }
         };
     }

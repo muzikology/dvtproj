@@ -10,6 +10,10 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,39 +24,32 @@ public class TradesController {
     @Autowired
     private TradeService tradeService;
 
-    public TradesController(TradeService tradeService1) {
-        this.tradeService = tradeService1;
-    }
+    @GetMapping("/stocks/{stockSymbol}/{tradeType}/{startDate}/{endDate}")
+    public ResponseEntity<List<Trade>> getTradeByStockSymbolAndTradeType(@PathVariable String stockSymbol, @PathVariable String tradeType, @PathVariable Timestamp startDate, @PathVariable Timestamp endDate){
 
-    @GetMapping("/stocks/{stockSymbol}, {tradeType}, {startDate}, {endDate}")
-    public ResponseEntity<List<Trade>> getTradeByStockSymbolAndTradeType(@PathVariable String symbol, @PathVariable String type, @PathVariable Timestamp startDate, @PathVariable Timestamp endDate){
 
-        return new ResponseEntity<>(tradeService.getTradeByStockSymbolAndTradeType(symbol, type, startDate, endDate), null, HttpStatus.OK);
+        return new ResponseEntity<>(tradeService.getTradeByStockSymbolAndTradeType(stockSymbol, tradeType, startDate, endDate), null, HttpStatus.OK);
     }
 
 
     @PostMapping
     public ResponseEntity<Trade> addTrade(@Valid @RequestBody Trade trade){
+        //        if(trade.getId() != null){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        else{
+//            System.out.println(trade);
+//            return new ResponseEntity<>(tradeService.addTrade(trade), null, HttpStatus.OK);
+//        }
+        return new ResponseEntity<>(tradeService.addTrade(trade), null, HttpStatus.OK);
 
-        if(trade.getId() != null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
-        else{
-            return new ResponseEntity<>(tradeService.addTrade(trade), null, HttpStatus.OK);
-        }
 
-    }
-
-    @DeleteMapping("/all")
-    public ResponseEntity<Void> deleteAllTrades(){
-        tradeService.deleteAllTrades();
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteTradeByUserId(@PathVariable Long id){
-        tradeService.deleteTrade(id);
+    public ResponseEntity<Void> deleteTradeByUserId(@PathVariable Long userId){
+        tradeService.deleteTrade(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -62,8 +59,8 @@ public class TradesController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<List<Trade>> getTradeByUsserId(@PathVariable Long useriId){
-        return new ResponseEntity<>(tradeService.getAllTradeByUserId(useriId), null, HttpStatus.OK);
+    public ResponseEntity<List<Trade>> getAllTradesByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(tradeService.getAllTradesByUserId(userId), null, HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -71,7 +68,23 @@ public class TradesController {
         return new ResponseEntity<>(tradeService.getAllTrades(), null, HttpStatus.OK);
     }
 
+    //    @DeleteMapping("/all")
+//    public ResponseEntity<Void> deleteAllTrades(){
+//        tradeService.deleteAllTrades();
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
+    public Timestamp convertDateToImeStamp(String strDate){
+        try {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = formatter.parse(strDate);
+            Timestamp timeStampDate = new Timestamp(date.getTime());
 
-    
+            return timeStampDate;
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+            return null;
+        }
+    }
+
 }
